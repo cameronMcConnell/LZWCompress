@@ -27,5 +27,18 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     
+    StringMap *map = initMap();
+    string *w = newString("");
     
+}
+
+StringMap *initMap() {
+    StringMap *map = newStringMap(DICT_SIZE, 0.75);
+
+    for (size_t i = 1; i < 96; i++) {
+        string *key = newString((char) i);
+        stringMapInsert(map, key, i);
+    }
+
+    return map;
 }
