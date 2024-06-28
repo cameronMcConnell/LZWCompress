@@ -1,5 +1,5 @@
-#ifndef LZW_COMPRESS
-#define LZW_COMPRESS
+#ifndef LZW
+#define LZW
 
 #include <stdio.h>
 #include "lib/c-map.h"

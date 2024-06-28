@@ -1,4 +1,4 @@
-#include "lzw-compress.h"
+#include "lzw.h"
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
         string *cString = newString(c);
         string *wc = concat(w, cString);
         int value = stringMapGet(map, wc);
+        
         if (value != -1) {
             freeString(w);
             freeString(cString);
