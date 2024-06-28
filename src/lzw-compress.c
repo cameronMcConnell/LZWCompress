@@ -1,14 +1,5 @@
 #include "lzw-compress.h"
 
-/*
-Things I need:
----------------------
-1. Arguement checking.
-2. Opening output file.
-3. LZW compression algorithm.
-4. Writing a file.
-*/
-
 int main(int argc, char *argv[]) {
     if (argc != 3) {
         printf("input and output file paths should be the only supplied arguements\n");
@@ -28,8 +19,41 @@ int main(int argc, char *argv[]) {
     }
     
     StringMap *map = initMap();
-    string *w = newString("");
-    
+    string *w = newString('\0');
+    int nextCode = 96;
+    char c;
+
+    while ((c = fgetc(inputFile)) != EOF) {
+        string *cString = newString(c);
+        string *wc = concat(w, cString);
+        int value = stringMapGet(map, wc);
+        if (value != -1) {
+            freeString(w);
+            freeString(cString);
+            w = wc;
+        }
+        else {
+            int wCode = stringMapGet(map, w);
+            fwrite(&wCode, sizeof(int), 1, outputFile);
+            stringMapInsert(map, wc, nextCode);
+            nextCode++;
+            freeString(w);
+            w = cString;
+            freeString(wc);
+        }
+    }
+
+    if (w->str[0] != '\0') {
+        int wCode = stringMapGet(map, w);
+        fwrite(&wCode, sizeof(int), 1, outputFile);
+    }
+
+    freeString(w);
+
+    fclose(inputFile);
+    fclose(outputFile);
+
+    return 0;
 }
 
 StringMap *initMap() {
