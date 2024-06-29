@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
     }
 
     freeString(w);
+    freeStringMap(map);
     
     fclose(outputFile);
     fclose(inputFile);

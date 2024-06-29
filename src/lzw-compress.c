@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
     FILE *inputFile = fopen(argv[1], 'r');
     if (inputFile == NULL) {
         printf("Error opening input file: %s", argv[1]);
+        fclose(outputFile);
         return 1;
     }
     
@@ -50,6 +51,7 @@ int main(int argc, char *argv[]) {
     }
 
     freeString(w);
+    freeStringMap(map);
 
     fclose(inputFile);
     fclose(outputFile);

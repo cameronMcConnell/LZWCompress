@@ -60,6 +60,16 @@ IntMap *newIntMap(size_t size, float loadFactor) {
     return map;
 }
 
+void freeStringMap(StringMap *map) {
+    free(map->entries);
+    free(map);
+}
+
+void freeIntMap(IntMap *map) {
+    free(map->entries);
+    free(map);
+}
+
 void resizeStringMap(StringMap *map) {
     size_t newSize = map->size * 2;
     StringMapEntry *newEntries = (StringMapEntry*) malloc(newSize * sizeof(StringMapEntry));
