@@ -69,7 +69,7 @@ To decompress a file output.dat:
 
 The results of the compression and decompression programs may vary. The map used in this project seems to have
 collision/mapping issues that result in sometimes incorrect compression and decompression. It is not reccomended to use
-this for any sensative data as you may lose significant parts. This project was for educative purposes and is in no way
+this for any sensative data as you may lose significant parts. This project is for educative purposes and is in no way
 meant for large scale usage.
 
 ## License
