@@ -10,6 +10,8 @@ typedef struct {
 
 string *newString(const char *staticString);
 
+string *charToString(const char character);
+
 void freeString(string *str);
 
 string *concat(string *str1, string *str2);

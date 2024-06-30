@@ -1,12 +1,33 @@
 #include "lzw.h"
 
+StringMap *initMap() {
+    StringMap *map = newStringMap(DICT_SIZE, 0.75);
+
+    for (size_t i = 0; i < 256; i++) {
+        string *key = charToString((char) i);
+        stringMapInsert(map, key, i);
+    }
+
+    return map;
+}
+
+string *getKeyFromValue(StringMap *map, int value) {
+    for (size_t i = 0; i < map->size; i++) {
+        if (map->entries[i].isOccupied == 1 && map->entries[i].value == value) {
+            return map->entries[i].key;
+        }
+    }
+
+    return NULL;
+}
+
 int main(int argc, char *argv[]) {
     if (argc != 3) {
         printf("input and output file paths should be the only supplied arguements\n");
         return 1;
     }
 
-    FILE *outputFile = fopen(argv[2], "wb");
+    FILE *outputFile = fopen(argv[2], "w");
     if (outputFile == NULL) {
         printf("Error opening output file: %s", argv[2]);
         return 1;
@@ -20,66 +41,45 @@ int main(int argc, char *argv[]) {
     }
 
     StringMap *map = initMap();
-    int nextCode = 96;
+    int nextCode = 256;
+    int old; int new;
     
-    int code;
-    fread(&code, sizeof(int), 1, inputFile);
-    string *key = getKeyFromValue(map, code);
-    fwrite(key->str, sizeof(char), key->length, outputFile);
-    string *w = copyString(key);
+    fread(&old, sizeof(int), 1, inputFile);
+    string *s = getKeyFromValue(map, old);
+    fwrite(s->str, sizeof(char), s->length, outputFile);
 
-    while (fread(&code, sizeof(int), 1, inputFile)) {
-        string *key = getKeyFromValue(map, code);
-        string *entry;
+    string *c = charToString(s->str[0]);
+
+    while (fread(&new, sizeof(int), 1, inputFile)) {
+        string *key = getKeyFromValue(map, new);
         
         if (key != NULL) {
-            entry = copyString(key);
+            s = key;
         }
         else {
-            string *wFirstChar = newString(w->str[0]);
-            entry = concat(w, wFirstChar);
-            freeString(wFirstChar);
+            s = getKeyFromValue(map, old);
+            s = concat(s, c);
         }
 
-        fwrite(entry->str, sizeof(char), entry->length, outputFile);
+        fwrite(s->str, sizeof(char), s->length, outputFile);
         
-        string *entryFirstChar = newString(entry->str[0]);
-        string *newKey = concat(w, entryFirstChar);
-        freeString(entryFirstChar);
+        freeString(c);
+
+        c = charToString(s->str[0]);
+        string *oldKey = getKeyFromValue(map, old);
+        string *newKey = concat(oldKey, c);
 
         stringMapInsert(map, newKey, nextCode);
         nextCode++;
-
-        freeString(w);
-        w = entry;
+        old = new;
     }
 
-    freeString(w);
+    freeString(s);
+    freeString(c);
     freeStringMap(map);
     
     fclose(outputFile);
     fclose(inputFile);
 
     return 0;
-}
-
-StringMap *initMap() {
-    StringMap *map = newStringMap(DICT_SIZE, 0.75);
-
-    for (size_t i = 1; i < 96; i++) {
-        string *key = newString((char) i);
-        stringMapInsert(map, key, i);
-    }
-
-    return map;
-}
-
-string *getKeyFromValue(StringMap *map, int value) {
-    for (size_t i = 0; i < map->size; i++) {
-        if (map->entries[i].value == value) {
-            return map->entries[i].key;
-        }
-    }
-
-    return NULL;
 }

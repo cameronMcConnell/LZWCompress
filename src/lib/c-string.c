@@ -28,6 +28,26 @@ string *newString(const char *staticString) {
     return newStr;
 }
 
+string *charToString(const char character) {
+    string *newStr = (string*) malloc(sizeof(string));
+    if (newStr == NULL) {
+        return NULL;
+    }
+
+    newStr->length = 1;
+
+    newStr->str = (char*) malloc(2 * sizeof(char));
+    if (newStr->str == NULL) {
+        free(newStr);
+        return NULL;
+    }
+
+    newStr->str[0] = character;
+    newStr->str[1] = '\0';
+
+    return newStr;
+}
+
 void freeString( string *str) {
     if (str != NULL) {
         free(str->str);
