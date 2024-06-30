@@ -23,11 +23,13 @@ LZWCompress is a command-line tool that implements the LZW compression algorithm
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/cameronMcConnell/LZWCompress.git
 ```
 
 2. Compile the project:
+
 ```bash
 cd src
 gcc -g -o compress lzw-compress.c lib/lzw.h lib/c-map.c lib/c-map.h lib/c-string.c lib/c-string.h
@@ -37,11 +39,12 @@ gcc -g -o decompress lzw-decompress.c lib/lzw.h lib/c-map.c lib/c-map.h lib/c-st
 ### Testing
 
 You can test the programs in the `test/` directory with the following scripts:
+
 * `clean.sh`
 * `compile.sh`
-* 'exec.sh`
+* `exec.sh`
 
-Included is an input.txt file that can be altered for your own testing.
+Included is an `input.txt` file that can be altered for your own testing.
 
 ### Compression Example
 To compress a text file input.txt:
