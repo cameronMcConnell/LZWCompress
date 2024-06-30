@@ -62,8 +62,8 @@ To decompress a file output.dat:
 
 ## Libraries Used
 
-* C-String
-* C-Map
+* [C-String](https://github.com/cameronMcConnell/C-String)
+* [C-Map](https://github.com/cameronMcConnell/C-Map)
 
 ## Disclaimer
 
