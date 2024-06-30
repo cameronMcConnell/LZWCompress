@@ -1,0 +1,2 @@
+gcc -g -o compress lib/lzw-compress.c lib/lzw.h lib/c-map.c lib/c-map.h lib/c-string.c lib/c-string.h
+gcc -g -o decompress lib/lzw-decompress.c lib/lzw.h lib/c-map.c lib/c-map.h lib/c-string.c lib/c-string.h
