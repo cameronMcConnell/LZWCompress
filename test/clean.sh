@@ -1,0 +1,1 @@
+rm compress decompress encode.lzw output.txt
